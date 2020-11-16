@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "utility": "cpp",
+        "ios": "cpp",
+        "iostream": "cpp",
+        "algorithm": "cpp",
+        "cmath": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "queue": "cpp",
+        "deque": "cpp",
+        "vector": "cpp"
+    }
+}

@@ -1,76 +1,84 @@
 #include<iostream>
 #include<queue>
 using namespace std;
-class alpha{
+
+class non {
 public:
     int row;
     int col;
 };
-int mover[4][2] = {{0,1},{0,-1},{1,0},{-1,0}};
-int map[9][9] = {0, };
-bool visited[9][9] = {false, };
-int n, m;
-queue <pair<int , int> > q1;
-alpha ala[64];
-int bfs(queue<pair<int, int> > real_q, pair<int, int> p1, pair<int, int> p2, pair<int, int> p3){
-    int buf_map[9][9];
-    int sum = 0;
-    for(int i = 0; i<n; i++) for(int j = 0; j<m; j++) buf_map[i][j] = map[i][j];
-    buf_map[p1.first][p1.second] = 1;
-    buf_map[p2.first][p2.second] = 1;
-    buf_map[p3.first][p3.second] = 1;
-    bool visited[9][9] = {false, };
-    while(!real_q.empty()){
-        int cu_row = real_q.front().first;
-        int cu_col = real_q.front().second;
-        real_q.pop();
-        visited[cu_row][cu_col] = true;
+int n,m;
+int adj[4][2] = {{1, 0}, {-1,0}, {0,1}, {0,-1}};
+int map[8][8];
+non zero[64];
+queue <pair<int, int> > virus, virus_buffer;
+
+int bfs(int x1, int y1, int x2, int y2, int x3, int y3) {
+    int x, y, new_x, new_y, cnt = 0;
+    int map_buffer[8][8];
+    for(int i = 0; i<n; i++){
+        for(int j = 0; j<m; j++){
+            map_buffer[i][j] = map[i][j];
+        }
+    }
+    map_buffer[x1][y1] = 1;
+    map_buffer[x2][y2] = 1;
+    map_buffer[x3][y3] = 1;
+    virus_buffer = virus;
+
+    while(!virus_buffer.empty()){
+        x = virus_buffer.front().first;
+        y = virus_buffer.front().second;
+        virus_buffer.pop();
+
         for(int i = 0; i<4; i++){
-            int new_row = cu_row + mover[i][0];
-            int new_col = cu_col + mover[i][1];
-            if(new_row>=n || new_row<0 || new_col>=m || new_col<0) continue;
-            if(!visited[new_row][new_col] && buf_map[new_row][new_col] == 0){
-                buf_map[new_row][new_col] = 2;
-                real_q.push(make_pair(new_row,new_col));
+            new_x = x + adj[i][0], new_y = y + adj[i][1];
+            if(new_x >= n || new_x < 0 || new_y >= m || new_y<0 ) continue;
+            if(map_buffer[new_x][new_y] == 1 || map_buffer[new_x][new_y] == 2) continue;
+            else if(map_buffer[new_x][new_y] == 0) {
+                map_buffer[new_x][new_y] = 2;
+                virus_buffer.push(make_pair(new_x, new_y));
             }
         }
     }
-    for(int i=0; i<n; i++){
-        for(int j = 0; j<m; j++) if(buf_map[i][j]==0) sum++;
+
+    for(int i = 0; i<n; i++){
+        for(int j = 0; j<m; j++) if(map_buffer[i][j] == 0) cnt++;
     }
-    return sum;
+    return cnt;  
 }
+
+
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
+    int l = 0;
+    int maxx = -1;
     cin >> n >> m;
-    int k = 0;
-    for(int i = 0; i<n; i++){
+    for(int i = 0; i < n; i++){
         for(int j = 0; j<m; j++){
             cin >> map[i][j];
-            if(map[i][j]==2) q1.push(make_pair(i,j));
-            else if(map[i][j] == 0){
-                ala[k].row = i;
-                ala[k].col = j;
-                k++;
+            if(map[i][j] == 2) {
+                virus.push(make_pair(i,j));
+            }
+            else if(map[i][j] == 0) {
+                zero[l].row = i, zero[l].col = j;
+                l++;
             }
         }
     }
-    int maxx = 0;
-    for(int i = 0; i<k-2; i++){
-        for(int j = i+1; j<k-1; j++){
-            for(int p = j+1; p<k; p++){
-                queue<pair<int, int> > buf_q = q1;
-                int p1_row = ala[i].row;
-                int p1_col = ala[i].col;
-                int p2_row = ala[j].row;
-                int p2_col = ala[j].col;
-                int p3_row = ala[p].row;
-                int p3_col = ala[p].col;
-                maxx = max(maxx, bfs(buf_q,make_pair(p1_row,p1_col),make_pair(p2_row,p2_col),make_pair(p3_row,p3_col)));         
+
+    for(int i = 0; i<l-2; i++){
+        for(int j = i+1; j<l-1; j++){
+            for(int k = j+1; k<l; k++){
+                int x1 = zero[i].row, y1 = zero[i].col;
+                int x2 = zero[j].row, y2 = zero[j].col;
+                int x3 = zero[k].row, y3 = zero[k].col;
+                maxx = max(maxx, bfs(x1,y1,x2,y2,x3,y3));
             }
         }
     }
-    cout << maxx << "\n";
+    
+    cout << maxx << endl;
 }

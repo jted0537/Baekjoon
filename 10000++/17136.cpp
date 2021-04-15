@@ -1,5 +1,4 @@
 #include<iostream>
-
 using namespace std;
 
 #define MAX 10
@@ -7,7 +6,6 @@ using namespace std;
 int map[10][10] = {0, };
 int ans = 987654321;
 int paper[5] = {5,5,5,5,5};
-
 
 void make_map_2(int x, int y, int num, int a) {
     for(int i = 0; i<num; i++){

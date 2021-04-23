@@ -1,8 +1,11 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
-
+#include<map>
+#include <queue>
 using namespace std;
+
+map<string, priority_queue<string> > m1;
 
 bool compare(pair<string,pair<int,int> > a,pair<string,pair<int,int> > b ){
     if(a.second.first == b.second.first) 
@@ -25,5 +28,6 @@ int main(){
     for(int i=0; i<v.size(); i++){
         cout << v[i].first << " " << v[i].second.first << " " << v[i].second.second << endl;
     }
+    m1["ICN"].size
 }
 

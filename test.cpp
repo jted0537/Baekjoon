@@ -2,20 +2,25 @@
 #include<map>
 #include<set>
 #include<queue>
-
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<stack>
 using namespace std;
-priority_queue<pair<int, int> > pq;
-set<int> s;
 int main() {
-    map<string, int> m1;
-    m1.insert(make_pair("aa", 190232));
-    m1["aa"] = 3;
-    m1["ab"] = 4;
-    m1["ac"] = 5;
-    map<string, int>::iterator iter = m1.begin();
-    for(; iter != m1.end(); iter++) {
-        cout << iter->first << iter->second << "\n";
-    }
-    string a;
-    
+    vector<int> v1;
+    v1.push_back(5);
+    v1.push_back(4);
+    v1.push_back(3);
+    v1.push_back(2);
+    v1.push_back(1);
+    string s1;
+    stack<char> s2;
+    s2.
+    do{
+        for(vector<int>::iterator it = v1.begin(); it != v1.end(); it++) {
+            cout << *it << " ";
+        }
+        cout << endl;
+    } while(next_permutation(v1.begin(), v1.end()));
 }

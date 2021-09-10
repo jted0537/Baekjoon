@@ -15,7 +15,8 @@ int main()
 {
 	int err = -1;
 	ios::sync_with_stdio(false);
-	cin.tie(NULL); 
+	cin.tie(NULL);
+	cout.tie(NULL);
 	cin >> m >> n;
 	for (int i = 0; i < n; i++)
 	{
@@ -26,7 +27,7 @@ int main()
 			if (tomato[i][j] == 1)
 			{
 				q.push(make_pair(i, j));
-				visit[i][j] = 1;
+				visit[i][j] = 0;
 			}
 			if(tomato[i][j] != -1){
 				err = 1;
@@ -34,7 +35,7 @@ int main()
 		}
 	}
 	if(err == -1){
-		cout << 0;
+		cout << -1 << '\n';
 		return 0;
 	}
 	while (!q.empty())
@@ -46,29 +47,31 @@ int main()
 		{
 			int newX = tmpX + adj[i][0];
 			int newY = tmpY + adj[i][1];
-			if (newX >= 0 && newX < n && newY >= 0 && newY < m && tomato[newX][newY] == 0 && visit[newX][newY] == 0)
+			if (newX >= 0 && newX < n && newY >= 0 && newY < m && tomato[newX][newY] == 0)
 			{
 				q.push(make_pair(newX, newY));
-				visit[newX][newY] = visit[tmpX][tmpY] + 1;
+				if(visit[newX][newY] == 0) visit[newX][newY] = visit[tmpX][tmpY] + 1;
+				else visit[newX][newY] = min(visit[tmpX][tmpY] + 1, visit[newX][newY]);
 				tomato[newX][newY] = 1;
 			}
 		}
 	}
-	int big = 0;
+	int ans = 0;
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < m; j++)
 		{
-			big = max(big, visit[i][j]);
+			ans = max(ans, visit[i][j]);
 			//cout << visit[i][j] << " ";
 			if (tomato[i][j] == 0)
 			{
-				cout << -1;
+				cout << -1 << '\n';
 				return 0;
 			}
 		}
 		//cout<<endl;
 	}
-	cout << big - 1;
+
+	cout << ans;
 	return 0;
 }
